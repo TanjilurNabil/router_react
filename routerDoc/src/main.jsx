@@ -1,9 +1,18 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Contact from './Contact';
+import ErrorPage from './Error';
 import './index.css';
+import Root from './Root';
 const router = createBrowserRouter([
-  {path: "/", element: <h1>Hello World</h1>
+  {
+    path: "/", element: <Root />, errorElement: <ErrorPage />
+    , children: [
+      {
+    path:"/contacts/:contactId", element:<Contact/>
+  }
+    ]
   },
   
 ]);
