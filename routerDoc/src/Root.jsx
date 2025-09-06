@@ -8,6 +8,9 @@ export default function Root() {
   useEffect(() => {
     document.getElementById("q").value = q;
   }, [q]);
+  const searching =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has("q");
   return (
     <>
       <div id="sidebar">
@@ -21,12 +24,20 @@ export default function Root() {
               type="search"
               name="q"
               defaultValue={q}
-              onChange={(e)=>{submit(e.currentTarget.form)}}
+              onChange={(e) => {
+                const isfirstsearch = q == null;
+                {
+                  submit(e.currentTarget.form, {
+                    replace: !isfirstsearch
+                  });
+                }
+              }}
+              className={searching? "loading":""}
             />
             <div
               id="search-spinner"
               aria-hidden
-              hidden={true}
+              hidden={!searching}
             />
             <div
               className="sr-only"

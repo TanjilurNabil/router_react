@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, useFetcher, useLoaderData } from "react-router-dom";
 
 export default function Contact() {
   const { contact} = useLoaderData();
@@ -66,20 +66,17 @@ export default function Contact() {
 }
 
 function Favorite({ contact }) {
-  const favorite = contact.favorite;
+  const Fetcher = useFetcher();
+  const favorite = Fetcher.formData? Fetcher.formData.get("favorite") === "true":contact.favorite;
   return (
-    <Form method="post">
+    <Fetcher.Form method="post">
       <button
         name="favorite"
         value={favorite ? "false" : "true"}
-        aria-label={
-          favorite
-            ? "Remove from favorites"
-            : "Add to favorites"
-        }
+        aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
       >
         {favorite ? "★" : "☆"}
       </button>
-    </Form>
+    </Fetcher.Form>
   );
 }
