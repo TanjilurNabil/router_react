@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { createContactAction, editContactAction } from './actions/contactsActions';
+import { createContactAction, deleteContactAction, editContactAction } from './actions/contactsActions';
 import Contact from './Contact';
 import EditContact from './EditContact';
 import ErrorPage from './Error';
@@ -14,22 +14,26 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     loader: getContactsLoader,
-    action:createContactAction,
+    action: createContactAction,
     children: [
       {
-        path: "/contacts/:contactId", element: <Contact />,
-        loader: getContactLoader
+        path: "/contacts/:contactId",
+        element: <Contact />,
+        loader: getContactLoader,
       },
       {
         path: "/contacts/:contactId/edit",
         element: <EditContact />,
         loader: getContactLoader,
-        action:editContactAction
-    
-      }
-    ]
+        action: editContactAction,
+      },
+      {
+        path: "/contacts/:contactId/destroy",
+        action: deleteContactAction,
+        errorElement: <div>Oops! There was an error deleting the item.</div>,
+      },
+    ],
   },
-  
 ]);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
